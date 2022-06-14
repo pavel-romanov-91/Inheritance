@@ -4,10 +4,14 @@ using std::cin;
 using std::cout;
 using std::endl;
 
+#define HUMAN_TAKE_PARAMETERS const std::string last_name, const std::string& first_name, unsigned int age
+#define HUMAN_GIVE_PARAMETERS last_name, first_name, age
+
 class Human
 {
+protected:
 	std::string last_name;
-	std::string First_name;
+	std::string first_name;
 	unsigned int age;
 public:
 	const std::string& get_last_name()const
@@ -34,41 +38,52 @@ public:
 	{
 		this->age = age;
 	}
-	//					Constructors:
-	Human(const std::string& last_name, const std::string& first_name, unsigned int age)
+
+	//					Consnructors:
+
+	Human(HUMAN_TAKE_PARAMETERS)
 	{
 		set_last_name(last_name);
 		set_first_name(first_name);
 		set_age(age);
 		cout << "HConstructor:\t" << this << endl;
 	}
-	~Human()
+	virtual ~Human()
 	{
 		cout << "HDestructor:\t" << this << endl;
 	}
 
 	//					Methods:
-	void print()const
+
+	virtual std::ostream& print(std::ostream& os)const
 	{
-		cout << last_name << " " << first_name << " " << age << " years.\n";
+		return os << last_name << " " << first_name << " " << age << " years.\n";
 	}
 };
 
+std::ostream& operator<<(std::ostream& os, const Human& obj)
+{
+	return obj.print(os);
+}
+
+#define STUDENT_TAKE_PARAMETERS const std::string& speciality, const std::string& group, unsigned int year, double rating, double attendance
+#define STUDENT_GIVE_PARAMETERS speciality, group, year, rating, attendance
+
 class Student :public Human
 {
-	std::string specialty;
+	std::string speciality;
 	std::string group;
 	unsigned int year;
 	double rating;
 	double attendance;
 public:
-	const std::string& get_specialty()const
+	const std::string& get_speciality()const
 	{
-		return this->specialty;
+		return speciality;
 	}
 	const std::string& get_group()const
 	{
-		return this->group;
+		return group;
 	}
 	unsigned int get_year()const
 	{
@@ -82,9 +97,9 @@ public:
 	{
 		return attendance;
 	}
-	void set_specialty(const std::string& specialty)
+	void set_speciality(const std::string& speciality)
 	{
-		this->specialty = specialty;
+		this->speciality = speciality;
 	}
 	void set_group(const std::string& group)
 	{
@@ -103,40 +118,158 @@ public:
 		this->attendance = attendance;
 	}
 
-	//				Constructors:
-	Student
-	(
-		const std::string& last_name, const std::string& first_name, unsigned int age,
-		const std::string& specialty, const std::string& group, unsigned int year, double rating, double attendance
-	) :Human(last_name, first_name, age)
+	//			Constructors:
+
+	Student(HUMAN_TAKE_PARAMETERS, STUDENT_TAKE_PARAMETERS) :Human(HUMAN_GIVE_PARAMETERS)
 	{
-		set_specialty(specialty);
+		set_speciality(speciality);
 		set_group(group);
 		set_year(year);
 		set_rating(rating);
 		set_attendance(attendance);
-		cout << "SCostructor:\t" << this << endl;
+		cout << "SConstructor:\t" << this << endl;
 	}
 	~Student()
 	{
 		cout << "SDestructor:\t" << this << endl;
 	}
+	//					Methods:
 
-	//				Methods:
-	void print()const
+	std::ostream& print(std::ostream& os)const
 	{
-		Human::print();
-		cout << specialty + " " + group << " " << year << " " << rating << " " << attendance << endl;
+		Human::print(os);
+		return os << "Специальность: " << speciality + " " + "Группа: " + group << " " << "Курс: " << year << " " << "Рейтинг: " << rating << " " << "Посещаемость: " << attendance << endl;
 	}
 };
+
+class Teacher :public Human
+{
+	std::string speciality;
+	unsigned int experience;
+public:
+	const std::string& get_speciality()const
+	{
+		return speciality;
+	}
+	unsigned int get_experience()const
+	{
+		return experience;
+	}
+	void set_speciality(const std::string& speciality)
+	{
+		this->speciality = speciality;
+	}
+	void set_experience(unsigned int experience)
+	{
+		this->experience = experience;
+	}
+
+	//			Constructors:
+
+	Teacher
+	(
+		const std::string& last_name, const std::string& first_name, unsigned int age,
+		const std::string& speciality, unsigned int experience
+	) :Human(last_name, first_name, age)
+	{
+		set_speciality(speciality);
+		set_experience(experience);
+		cout << "TConstructor:\t" << this << endl;
+	}
+	~Teacher()
+	{
+		cout << "TDestructor:\t" << this << endl;
+	}
+
+	//					Methods:
+
+	std::ostream& print(std::ostream& os)const
+	{
+		Human::print(os);
+		return os << "Специальность: " << speciality + " " << "Опыт: " << experience << endl;
+	}
+};
+class Graduate :public Student
+{
+	std::string diplom;
+public:
+	const std::string& get_diplom()const
+	{
+		return diplom;
+	}
+	void set_diplom(const std::string& diplom)
+	{
+		this->diplom = diplom;
+	}
+
+	//			Constructors:
+
+	Graduate
+	(
+		const std::string& last_name, const std::string& first_name, unsigned int age,
+		const std::string& speciality, const std::string& group, unsigned int year, double rating, double attendance,
+		const std::string& diplom
+	) :Student
+	(
+		last_name, first_name, age,
+		speciality, group, year, rating, attendance
+	)
+	{
+		set_diplom(diplom);
+		cout << "GConstructor:\t" << this << endl;
+	}
+	~Graduate()
+	{
+		cout << "GDestructor:\t" << this << endl;
+	}
+
+	//					Methods:
+
+	std::ostream& print(std::ostream& os)const
+	{
+		return Student::print(os) << "Тема диплома: " << diplom << endl;
+	}
+};
+
+//#define INHERITANCE_CHECK
 
 void main()
 {
 	setlocale(LC_ALL, "");
+#ifdef INHERITANCE_CHECK
 	Human human("Montana", "Antonio", 25);
 	human.print();
 
 	Student pinkman("Pinkman", "Jessie", 23, "Chemistry", "WW_220", 1, 90, 85);
 	pinkman.print();
 
+	Teacher teacher("Ivanov", "Ivan", 43, "Chemistry", 20);
+	teacher.print();
+
+	Graduate graduate("Sidorov", "Alexey", 22, "Programming", "WW_420", 4, 90, 45, "С++");
+	graduate.print();
+#endif // INHERITANCE_CHECK
+
+	Human* group[] =
+	{
+		new Student("Pinkman", "Jessie", 23, "Chemistry", "WW_220", 1, 90, 95),
+		new Teacher("White", "Walter", 50, "Chemistry", 25),
+		new Graduate("Schreder", "Hank", 40, "Criminalistics", "WW_220", 5, 95, 80, "How to catch Heisenberg"),
+		new Student("Vercetti", "Tomas", 30, "Theft", "Vice", 3, 90, 85),
+		new Teacher("Diaz", "Ricardo", 50, "Weapons distribution", 20),
+		new Teacher("Einstein", "Albert", 143, "Astronomy", 100),
+	};
+
+	cout << "-------------------------------------------------\n";
+	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
+	{
+		cout << typeid(*group[i]).name() << endl;
+		cout << *group[i] << endl;
+		cout << "-------------------------------------------------\n";
+	}
+
+	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
+	{
+		delete group[i];
+	}
 }
