@@ -233,6 +233,7 @@ public:
 
 //#define INHERITANCE_CHECK
 
+
 void main()
 {
 	setlocale(LC_ALL, "");
