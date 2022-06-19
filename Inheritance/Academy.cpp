@@ -40,7 +40,6 @@ public:
 	}
 
 	//					Consnructors:
-
 	Human(HUMAN_TAKE_PARAMETERS)
 	{
 		set_last_name(last_name);
@@ -54,16 +53,17 @@ public:
 	}
 
 	//					Methods:
-
-	virtual std::ostream& print(std::ostream& os)const
+	virtual void print()const
 	{
-		return os << last_name << " " << first_name << " " << age << " years.\n";
+		cout << last_name << " " << first_name << " " << age << " years.\n";
 	}
 };
 
 std::ostream& operator<<(std::ostream& os, const Human& obj)
 {
-	return obj.print(os);
+	return os << obj.get_last_name()
+		<< " " << obj.get_first_name()
+		<< " " << obj.get_age() << " years";
 }
 
 #define STUDENT_TAKE_PARAMETERS const std::string& speciality, const std::string& group, unsigned int year, double rating, double attendance
@@ -117,9 +117,7 @@ public:
 	{
 		this->attendance = attendance;
 	}
-
 	//			Constructors:
-
 	Student(HUMAN_TAKE_PARAMETERS, STUDENT_TAKE_PARAMETERS) :Human(HUMAN_GIVE_PARAMETERS)
 	{
 		set_speciality(speciality);
@@ -134,13 +132,23 @@ public:
 		cout << "SDestructor:\t" << this << endl;
 	}
 	//					Methods:
-
-	std::ostream& print(std::ostream& os)const
+	void print()const
 	{
-		Human::print(os);
-		return os << "Специальность: " << speciality + " " + "Группа: " + group << " " << "Курс: " << year << " " << "Рейтинг: " << rating << " " << "Посещаемость: " << attendance << endl;
+		Human::print();
+		cout << "Специальность: " << speciality + " " + "Группа: " + group << " " << "Курс: " << year << " " << "Рейтинг: " << rating << " " << "Посещаемость: " << attendance << endl;
 	}
 };
+
+std::ostream& operator<<(std::ostream& os, const Student& obj)
+{
+	//os << (Human&)obj;
+	return os << (Human&)obj
+		<< " " << obj.get_speciality()
+		<< " " << obj.get_group()
+		<< " " << obj.get_year()
+		<< " " << obj.get_rating()
+		<< " " << obj.get_attendance();
+}
 
 class Teacher :public Human
 {
@@ -165,7 +173,6 @@ public:
 	}
 
 	//			Constructors:
-
 	Teacher
 	(
 		const std::string& last_name, const std::string& first_name, unsigned int age,
@@ -180,15 +187,20 @@ public:
 	{
 		cout << "TDestructor:\t" << this << endl;
 	}
-
 	//					Methods:
-
-	std::ostream& print(std::ostream& os)const
+	void print()const
 	{
-		Human::print(os);
-		return os << "Специальность: " << speciality + " " << "Опыт: " << experience << endl;
+		Human::print();
+		cout << "Специальность: " << speciality + " " << "Опыт: " << experience << endl;
 	}
 };
+std::ostream& operator<<(std::ostream& os, const Teacher& obj)
+{
+	return os << (Human&)obj
+		<< " " << obj.get_speciality()
+		<< " " << obj.get_experience();
+}
+
 class Graduate :public Student
 {
 	std::string diplom;
@@ -203,7 +215,6 @@ public:
 	}
 
 	//			Constructors:
-
 	Graduate
 	(
 		const std::string& last_name, const std::string& first_name, unsigned int age,
@@ -222,17 +233,19 @@ public:
 	{
 		cout << "GDestructor:\t" << this << endl;
 	}
-
 	//					Methods:
-
-	std::ostream& print(std::ostream& os)const
+	void print()const
 	{
-		return Student::print(os) << "Тема диплома: " << diplom << endl;
+		Student::print();
+		cout << "Тема диплома: " << diplom << endl;
 	}
 };
+std::ostream& operator<<(std::ostream& os, const Graduate& obj)
+{
+	return os << (Student&)obj << " " << obj.get_diplom();
+}
 
 //#define INHERITANCE_CHECK
-
 
 void main()
 {
@@ -251,11 +264,19 @@ void main()
 	graduate.print();
 #endif // INHERITANCE_CHECK
 
+	//			Polymorphism
+	//(poly - много, morphis - форма) - 
+	//Ad-hoc polymorphism
+
+	//Inclusion polymorphism 
+	//(Runtime polymorphism) - Полиморфизм подтипов.
+
+	//Generalisation:
+	//Upcast - приведение к базовому типу
 	Human* group[] =
 	{
 		new Student("Pinkman", "Jessie", 23, "Chemistry", "WW_220", 1, 90, 95),
 		new Teacher("White", "Walter", 50, "Chemistry", 25),
-		new Graduate("Schreder", "Hank", 40, "Criminalistics", "WW_220", 5, 95, 80, "How to catch Heisenberg"),
 		new Student("Vercetti", "Tomas", 30, "Theft", "Vice", 3, 90, 85),
 		new Teacher("Diaz", "Ricardo", 50, "Weapons distribution", 20),
 		new Teacher("Einstein", "Albert", 143, "Astronomy", 100),
@@ -264,8 +285,17 @@ void main()
 	cout << "-------------------------------------------------\n";
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
 	{
+		//RTTI - Runtime Type Information
 		cout << typeid(*group[i]).name() << endl;
-		cout << *group[i] << endl;
+		//group[i]->print();
+		//cout << *group[i] << endl;
+		if (typeid(*group[i]) == typeid(Teacher))cout << *dynamic_cast<Teacher*>(group[i]) << endl;
+		if (typeid(*group[i]) == typeid(Student))cout << *dynamic_cast<Student*>(group[i]) << endl;
+		if (typeid(*group[i]) == typeid(Graduate))cout << *dynamic_cast<Graduate*>(group[i]) << endl;
+		//dynamic_cast позволяет выполнить DOWNCAST - преобразование из базового типа в дочерний тип.
+		//dynamic_cast работает только с указателями на классы
+
+		//dynamic_cast<DerivedClass*>(BasePointer) - преобразует указатель на базовый класс в указатель на дочерний класс (downcast)
 		cout << "-------------------------------------------------\n";
 	}
 
