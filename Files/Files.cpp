@@ -6,7 +6,7 @@ using std::cin;
 using std::cout;
 using std::endl;
 
-#define WRITE_TO_FILE
+//#define WRITE_TO_FILE
 
 void main()
 {
