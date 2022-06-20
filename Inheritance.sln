@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Inheritance", "Project1\Pro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Files", "Files\Files.vcxproj", "{ECCCF635-3557-4D3D-B182-468D33A80AE1}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AbstractBaseClass", "AbstractBaseClass\AbstractBaseClass.vcxproj", "{B92517C4-9DA6-4803-8777-D3517EC9A9C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,14 @@ Global
 		{ECCCF635-3557-4D3D-B182-468D33A80AE1}.Release|x64.Build.0 = Release|x64
 		{ECCCF635-3557-4D3D-B182-468D33A80AE1}.Release|x86.ActiveCfg = Release|Win32
 		{ECCCF635-3557-4D3D-B182-468D33A80AE1}.Release|x86.Build.0 = Release|Win32
+		{B92517C4-9DA6-4803-8777-D3517EC9A9C0}.Debug|x64.ActiveCfg = Debug|x64
+		{B92517C4-9DA6-4803-8777-D3517EC9A9C0}.Debug|x64.Build.0 = Debug|x64
+		{B92517C4-9DA6-4803-8777-D3517EC9A9C0}.Debug|x86.ActiveCfg = Debug|Win32
+		{B92517C4-9DA6-4803-8777-D3517EC9A9C0}.Debug|x86.Build.0 = Debug|Win32
+		{B92517C4-9DA6-4803-8777-D3517EC9A9C0}.Release|x64.ActiveCfg = Release|x64
+		{B92517C4-9DA6-4803-8777-D3517EC9A9C0}.Release|x64.Build.0 = Release|x64
+		{B92517C4-9DA6-4803-8777-D3517EC9A9C0}.Release|x86.ActiveCfg = Release|Win32
+		{B92517C4-9DA6-4803-8777-D3517EC9A9C0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

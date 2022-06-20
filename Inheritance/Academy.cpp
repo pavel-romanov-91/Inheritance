@@ -84,10 +84,10 @@ std::ostream& operator<<(std::ostream& os, const Human& obj)
 {
 	return obj.print(os);
 }
-//std::ofstream& operator<<(std::ofstream& ofs, const Human& obj)
-//{
-//	return obj.print(ofs);
-//}
+std::ofstream& operator<<(std::ofstream& ofs, const Human& obj)
+{
+	return obj.print(ofs);
+}
 
 std::istream& operator>>(std::ifstream& ifs, Human& obj)
 {
@@ -370,7 +370,7 @@ Human** load(const std::string& filename, int& n)
 }
 
 //#define INHERITANCE_CHECK
-#define WRITE_TO_FILE
+//#define WRITE_TO_FILE
 
 void main()
 {
@@ -422,7 +422,8 @@ void main()
 	}
 #endif // WRITE_TO_FILE
 
-	/*int n = 0;
+#ifndef WRITE_TO_FILE
+	int n = 0;
 	Human** group = load("Academy.txt", n);
 
 	for (int i = 0; i < n; i++)
@@ -434,6 +435,8 @@ void main()
 	{
 		delete group[i];
 	}
-	delete[] group;*/
+	delete[] group;
+#endif // !WRITE_TO_FILE
+
 
 }
