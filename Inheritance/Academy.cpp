@@ -66,7 +66,16 @@ public:
 		ofs.width(20);
 		ofs << std::left;
 		ofs << last_name + " " + first_name << age;
+		ofs.width(4);
+		ofs << std::right;
+		ofs << age;
 		return ofs;
+	}
+	virtual std::ifstream& scan(std::ifstream& ifs)
+	{
+		std::string buffer;
+		ifs >> last_name >> first_name >> age;
+		return ifs;
 	}
 };
 
@@ -173,6 +182,16 @@ public:
 		ofs << rating << " " << attendance;
 		return ofs;
 	}
+	std::ifstream& scan(std::ifstream& ifs)
+	{
+		Human::scan(ifs);
+		ifs >> speciality;
+		ifs >> group;
+		ifs >> year;
+		ifs >> rating;
+		ifs >> attendance;
+		return ifs;
+	}
 };
 
 class Teacher :public Human
@@ -226,6 +245,29 @@ public:
 		Human::print(ofs) << speciality << " " << experience;
 		return ofs;
 	}
+	std::ofstream& print(std::ofstream& ofs)const
+	{
+		Human::print(ofs) << " ";
+		ofs.width(25);
+		ofs << std::left;
+		ofs << speciality;
+		ofs.width(5);
+		ofs << std::right;
+		ofs << experience;
+		return ofs;
+	}
+	std::ifstream& scan(std::ifstream& ifs)
+	{
+		Human::scan(ifs);
+		//ifs >> speciality;
+		const int n = 25;
+		char speciality[n] = {};
+		ifs.read(speciality, n);
+		for (int i = n - 1; speciality[i] == ' '; i--)speciality[i] = 0;
+		set_speciality(speciality);
+		ifs >> experience;
+		return ifs;
+	}
 };
 class Graduate :public Student
 {
@@ -273,6 +315,8 @@ public:
 		return ofs;
 	}
 };
+
+
 
 //#define INHERITANCE_CHECK
 
