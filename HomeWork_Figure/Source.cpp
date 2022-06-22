@@ -79,18 +79,18 @@ public:
 		this->width = width;
 		return this->height;
 	}
-	Rectengel(double& height, double& width) :Shape()
+	Rectengel(double height, double width) :Shape()
 	{
 		set_height(height);
 		set_width(width);
 		cout << this << endl;
 	}
 	~Rectengel(){}
-	double get_area()
+	double get_area()const
 	{
 		return (height * width);
 	}
-	double get_parametr()
+	double get_parametr()const
 	{
 		return (height + width) * 2;
 	}
@@ -116,9 +116,11 @@ void main()
 	cout << "Периметр квадрата\t" << square.get_parametr() << endl;
 	square.draw();
 	
-	//Rectengel& rectengel();
-	//cout << "Сторона квадрата\t" << rectengel.get_height() << endl;
-	//cout << "Площадь квадрата\t" << rectengel.get_area() << endl;
-	//rectengel.draw();
+	Rectengel rectengel(4,7);
+	cout << "Сторона квадрата\t" << rectengel.get_height() << endl;
+	cout << "Сторона квадрата\t" << rectengel.get_width() << endl;
+	cout << "Площадь квадрата\t" << rectengel.get_area() << endl;
+	cout << "Периметр квадрата\t" << rectengel.get_parametr() << endl;
+	rectengel.draw();
 	
 }
