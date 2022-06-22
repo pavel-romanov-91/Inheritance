@@ -49,9 +49,12 @@ public:
 	}
 };
 
+
+
 void main()
 {
 	setlocale(LC_ALL, "");
+
 	//Vehicle v; //Не возможно создать экземпляр абстрактного класса
 	//GroundVehicle gv;
 	Car bmw;
