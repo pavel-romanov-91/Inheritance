@@ -107,6 +107,58 @@ public:
 	}
 };
 
+class EqualTriangel :public Shape
+{
+	double side;
+public:
+	double get_side()
+	{
+		return side;
+	}
+	const double& set_side(double side)
+	{
+		this->side = side;
+	}
+	EqualTriangel(double side) :Shape()
+	{
+		this->side = side;
+		cout << this << endl;
+	}
+	~EqualTriangel()
+	{
+		cout << this << endl;
+	}
+	double get_height()
+	{
+		return (sqrt(3) / 2) * side;
+	}
+	double get_area()const
+	{
+		return (sqrt(3) / 4) * side * side;
+	}
+	double get_parametr()const
+	{
+		return 3 * side;
+	}
+	void draw()const
+	{
+		size_t i, j;
+
+		for (i = 1; i <= side; ++i)
+		{
+			for (j = side; j > i; --j)
+			{
+				cout << (' ');
+			}
+			for (j = 1; j < 2 * i; ++j)
+			{
+				cout << "*";
+			}
+			cout << endl;
+		}
+	}
+};
+
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -123,4 +175,9 @@ void main()
 	cout << "Периметр квадрата\t" << rectengel.get_parametr() << endl;
 	rectengel.draw();
 	
+	EqualTriangel equalTriangel(5);
+	cout << "Сторона треугольника\t" << square.get_side() << endl;
+	cout << "Площадь треугольника\t" << square.get_area() << endl;
+	cout << "Периметр треугольника\t" << square.get_parametr() << endl;
+	equalTriangel.draw();
 }
