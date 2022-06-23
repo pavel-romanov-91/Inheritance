@@ -1,4 +1,4 @@
-#pragma warning(disable:4326)
+ï»¿#pragma warning(disable:4326)
 #include<iostream>
 
 
@@ -212,22 +212,22 @@ void main()
 {
 	setlocale(LC_ALL, "");
 	Square square(4);
-	cout << "Ñòîðîíà êâàäðàòà\t" << square.get_side() << endl;
-	cout << "Ïëîùàäü êâàäðàòà\t" << square.get_area() << endl;
-	cout << "Ïåðèìåòð êâàäðàòà\t" << square.get_parametr() << endl;
+	cout << "Ð¡Ñ‚Ð¾Ñ€Ð¾Ð½Ð° ÐºÐ²Ð°Ð´Ñ€Ð°Ñ‚Ð°\t" << square.get_side() << endl;
+	cout << "ÐŸÐ»Ð¾Ñ‰Ð°Ð´ÑŒ ÐºÐ²Ð°Ð´Ñ€Ð°Ñ‚Ð°\t" << square.get_area() << endl;
+	cout << "ÐŸÐµÑ€Ð¸Ð¼ÐµÑ‚Ñ€ ÐºÐ²Ð°Ð´Ñ€Ð°Ñ‚Ð°\t" << square.get_parametr() << endl;
 	square.draw();
 	
 	Rectengel rectengel(4,7);
-	cout << "Ñòîðîíà êâàäðàòà\t" << rectengel.get_height() << endl;
-	cout << "Ñòîðîíà êâàäðàòà\t" << rectengel.get_width() << endl;
-	cout << "Ïëîùàäü êâàäðàòà\t" << rectengel.get_area() << endl;
-	cout << "Ïåðèìåòð êâàäðàòà\t" << rectengel.get_parametr() << endl;
+	cout << "Ð¡Ñ‚Ð¾Ñ€Ð¾Ð½Ð° ÐºÐ²Ð°Ð´Ñ€Ð°Ñ‚Ð°\t" << rectengel.get_height() << endl;
+	cout << "Ð¡Ñ‚Ð¾Ñ€Ð¾Ð½Ð° ÐºÐ²Ð°Ð´Ñ€Ð°Ñ‚Ð°\t" << rectengel.get_width() << endl;
+	cout << "ÐŸÐ»Ð¾Ñ‰Ð°Ð´ÑŒ ÐºÐ²Ð°Ð´Ñ€Ð°Ñ‚Ð°\t" << rectengel.get_area() << endl;
+	cout << "ÐŸÐµÑ€Ð¸Ð¼ÐµÑ‚Ñ€ ÐºÐ²Ð°Ð´Ñ€Ð°Ñ‚Ð°\t" << rectengel.get_parametr() << endl;
 	rectengel.draw();
 	
 	EqualTriangel equalTriangel(3);
-	cout << "Ñòîðîíà òðåóãîëüíèêà\t" << square.get_side() << endl;
-	cout << "Ïëîùàäü òðåóãîëüíèêà\t" << square.get_area() << endl;
-	cout << "Ïåðèìåòð òðåóãîëüíèêà\t" << square.get_parametr() << endl;
+	cout << "Ð¡Ñ‚Ð¾Ñ€Ð¾Ð½Ð° Ñ‚Ñ€ÐµÑƒÐ³Ð¾Ð»ÑŒÐ½Ð¸ÐºÐ°\t" << square.get_side() << endl;
+	cout << "ÐŸÐ»Ð¾Ñ‰Ð°Ð´ÑŒ Ñ‚Ñ€ÐµÑƒÐ³Ð¾Ð»ÑŒÐ½Ð¸ÐºÐ°\t" << square.get_area() << endl;
+	cout << "ÐŸÐµÑ€Ð¸Ð¼ÐµÑ‚Ñ€ Ñ‚Ñ€ÐµÑƒÐ³Ð¾Ð»ÑŒÐ½Ð¸ÐºÐ°\t" << square.get_parametr() << endl;
 	equalTriangel.draw();
 
 	//Circle circle(4);
