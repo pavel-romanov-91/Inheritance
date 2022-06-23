@@ -1,6 +1,7 @@
 #pragma warning(disable:4326)
 #include<iostream>
 
+
 using namespace std;
 
 
@@ -159,6 +160,54 @@ public:
 	}
 };
 
+class Circle :public Shape
+{
+	double radius;
+public:
+	double get_radius()
+	{
+		return radius;
+	}
+	const double& set_radius(double radius)
+	{
+		if (radius == 0 || radius == 0.0)
+		{
+			radius = 1;
+		}
+		this->radius = radius;
+	}
+	Circle(double radius) :Shape()
+	{
+		this->radius = radius;
+		cout << this << endl;
+	}
+	~Circle()
+	{
+		cout << this << endl;
+	}
+	double get_ares()const
+	{
+		double area = radius * radius;
+		return area;
+	}
+	double get_diametr()const
+	{
+		return 2 * this->radius;
+	}
+	double get_circumference()const
+	{
+		return 2 * radius;
+	}
+	void draw()const
+	{
+		for (int i = 0; i < 3; ++i) 
+		{
+			cout << i << "* ";
+			//cout << Circle) << endl;
+		}
+	}
+};
+
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -175,9 +224,11 @@ void main()
 	cout << "Периметр квадрата\t" << rectengel.get_parametr() << endl;
 	rectengel.draw();
 	
-	EqualTriangel equalTriangel(5);
+	EqualTriangel equalTriangel(3);
 	cout << "Сторона треугольника\t" << square.get_side() << endl;
 	cout << "Площадь треугольника\t" << square.get_area() << endl;
 	cout << "Периметр треугольника\t" << square.get_parametr() << endl;
 	equalTriangel.draw();
+
+	//Circle circle(4);
 }
