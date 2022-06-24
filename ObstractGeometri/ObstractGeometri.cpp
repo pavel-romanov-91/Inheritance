@@ -1,6 +1,9 @@
 #include<iostream>
 #include<Windows.h>
+#include <cmath>
 using namespace std;
+
+#define PI M_PI
 
 namespace Geometry
 {
@@ -148,6 +151,75 @@ namespace Geometry
 			cout << "Сторона В: " << side_b << endl;
 			Shape::info();
 		}
+	};
+
+	class Circle :public Shape
+	{
+	private:
+		double x, y, radius;
+	public:
+		double get_x()
+		{
+			return x;
+		}
+		double get_y()
+		{
+			return y;
+		}
+		double get_radius()
+		{
+			return radius;
+		}
+		void set_x(double x)
+		{
+			if (x < 100)
+			{
+				x = 100;
+			}
+			this->x = x;
+		}
+		void set_y(double y)
+		{
+			if (y < 100)
+			{
+				y = 100;
+			}
+			this->y = y;
+		}
+		void set_radius(double radius)
+		{
+			if (radius == 0 || radius==0.0)
+			{
+				radius = 1;
+			}
+			this->radius = radius;
+		} 
+		double get_area()const
+		{
+			double area = radius * radius;
+			return area;
+		}
+		double get_diametr()const 
+		{
+			return 2 * this->radius;
+		}
+		double get_circumference() const 
+		{
+			return 2 * radius;
+		}
+		Circle(double x, double y, double radius) : Shape(x, y)
+		{
+			this->radius = radius;
+			cout << this << endl;
+		}
+
+		
+
+		void draw_to_console() 
+		{
+			
+		}
+		
 	};
 }
 
