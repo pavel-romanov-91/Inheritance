@@ -1,4 +1,4 @@
-#include<iostream>
+ï»¿#include<iostream>
 #include<Windows.h>
 #include <cmath>
 using namespace std;
@@ -39,8 +39,8 @@ namespace Geometry
 		virtual void draw()const = 0;
 		virtual void info()const
 		{
-			cout << "Ïëîùàäü ôèãóðû: " << get_area() << endl;
-			cout << "Ïåðèìåòð ôèãóðû: " << get_perimeter() << endl;
+			cout << "ÐŸÐ»Ð¾Ñ‰Ð°Ð´ÑŒ Ñ„Ð¸Ð³ÑƒÑ€Ñ‹: " << get_area() << endl;
+			cout << "ÐŸÐµÑ€Ð¸Ð¼ÐµÑ‚Ñ€ Ñ„Ð¸Ð³ÑƒÑ€Ñ‹: " << get_perimeter() << endl;
 			draw();
 		}
 	};
@@ -89,7 +89,7 @@ namespace Geometry
 		void info()const
 		{
 			cout << typeid(*this).name() << endl;
-			cout << "Äëèíà ñòîðîíû êâàäðàòà: " << get_side() << endl;
+			cout << "Ð”Ð»Ð¸Ð½Ð° ÑÑ‚Ð¾Ñ€Ð¾Ð½Ñ‹ ÐºÐ²Ð°Ð´Ñ€Ð°Ñ‚Ð°: " << get_side() << endl;
 			Shape::info();
 		}
 	};
@@ -147,8 +147,8 @@ namespace Geometry
 		void info()const
 		{
 			cout << typeid(*this).name() << endl;
-			cout << "Ñòîðîíà À: " << side_a << endl;
-			cout << "Ñòîðîíà Â: " << side_b << endl;
+			cout << "Ð¡Ñ‚Ð¾Ñ€Ð¾Ð½Ð° Ð: " << side_a << endl;
+			cout << "Ð¡Ñ‚Ð¾Ñ€Ð¾Ð½Ð° Ð’: " << side_b << endl;
 			Shape::info();
 		}
 	};
@@ -230,9 +230,9 @@ void main()
 {
 	setlocale(LC_ALL, "");
 	Geometry::Square square(5, Geometry::Color::console_red);
-	/*cout << "Äëèíà ñòîðîíû êâàäðàòà: " << square.get_side() << endl;
-	cout << "Ïëîùàäü êâàäðàòà: " << square.get_area() << endl;
-	cout << "Ïåðèìåòð êâàäðàòà: " << square.get_perimeter() << endl;
+	/*cout << "Ð”Ð»Ð¸Ð½Ð° ÑÑ‚Ð¾Ñ€Ð¾Ð½Ñ‹ ÐºÐ²Ð°Ð´Ñ€Ð°Ñ‚Ð°: " << square.get_side() << endl;
+	cout << "ÐŸÐ»Ð¾Ñ‰Ð°Ð´ÑŒ ÐºÐ²Ð°Ð´Ñ€Ð°Ñ‚Ð°: " << square.get_area() << endl;
+	cout << "ÐŸÐµÑ€Ð¸Ð¼ÐµÑ‚Ñ€ ÐºÐ²Ð°Ð´Ñ€Ð°Ñ‚Ð°: " << square.get_perimeter() << endl;
 	square.draw();*/
 	square.info();
 
