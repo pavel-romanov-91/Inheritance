@@ -525,7 +525,7 @@ namespace Geometry
 				{start_x, start_y + side},		
 				{start_x + side, start_y + side},	
 				{start_x, start_y + side - get_height()}	
-			};
+			}; 
 
 			::Polygon(hdc, vertices, sizeof(vertices) / sizeof(vertices[0]));
 
