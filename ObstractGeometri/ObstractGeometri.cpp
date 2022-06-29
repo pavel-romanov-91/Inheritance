@@ -24,12 +24,14 @@ namespace Geometry
 
 	enum Defaults
 	{
-		min_start_x=100,
-		max_start_x=800,
-		min_start_y=50,
-		max_start_y=800,
+		min_start_x = 100,
+		max_start_x = 800,
+		min_start_y = 50,
+		max_start_y = 800,
 		min_line_width = 5,
 		max_line_width = 20,
+		min_line_length = 10,
+		max_line_length = 500
 	};
 
 	class Shape
@@ -257,6 +259,7 @@ namespace Geometry
 		}
 	};
 
+
 	class Tringel :public Shape
 	{
 	private:
@@ -276,7 +279,8 @@ namespace Geometry
 			this->side = side;
 			cout << this << endl;
 		}
-		~Tringel(){}
+		~Tringel() {}
+
 		double get_height()const
 		{
 			return (sqrt(3) / 2) * side;
@@ -294,12 +298,12 @@ namespace Geometry
 			HWND hwnd = GetConsoleWindow();
 			HDC hdc = GetDC(hwnd);
 			HPEN hPen = CreatePen(PS_SOLID, line_width, red);
-			HBRUSH hBrush = CreateSolidBrush(yellow);
+			HBRUSH hBrush = CreateSolidBrush(red);
 
 			SelectObject(hdc, hPen);
 			SelectObject(hdc, hBrush);
 
-			POINT vertices[] = { {100, 500}, {200, 200}, {500, 200} };
+			POINT vertices[] = { {start_x, start_y + side}, {start_x + side, start_y + side}, {start_x + side / 2, start_y + side - get_height()} };
 
 			Polygon(hdc, vertices, sizeof(vertices) / sizeof(vertices[0]));
 			DeleteObject(hBrush);
@@ -310,12 +314,179 @@ namespace Geometry
 		{
 			cout << typeid(*this).name() << endl;
 			cout << "Сторона треугольника: " << side << endl;
-			cout << "Площадь триугольника: " << get_area() << endl;
 			cout << "Высота треугольника: " << get_height() << endl;
+			cout << "Площадь триугольника: " << get_area() << endl;
 			cout << "Периметр треугольника: " << get_perimeter() << endl;
+			draw();
 		}
 	};
+
+
+
+	class Triangle :public Shape
+	{
+	public:
+		Triangle(int start_x, int start_y, unsigned int line_width, Color color)
+			:Shape(start_x,start_y,line_width, color){}
+		~Triangle(){}
+		virtual double get_height()const = 0;
+	};
+	class EquilateralTriangle :public Triangle
+	{
+		double side;
+	public:
+		double get_side()const
+		{
+			return side;
+		}
+		void set_side(double side)
+		{
+			if (side < Defaults::min_line_length)this->side = Defaults::min_line_length;
+			else if (side > Defaults::max_line_length)this->side = Defaults::max_line_length;
+			else this->side = side;
+		}
+		EquilateralTriangle(double side, int start_x, int start_y, unsigned int line_width, Color color)
+			:Triangle(start_x, start_y, line_width, color)
+		{
+			set_side(side);
+		}
+		~EquilateralTriangle(){}
+		double get_height()const
+		{
+			return sqrt(pow(side, 2) - pow(side / 2, 2));
+		}
+		double get_area()const
+		{
+			return side * get_height() / 2;
+		}
+		double get_perimeter()const
+		{
+			return side * 3;
+		}
+		void draw()const
+		{
+			HWND hwnd = GetConsoleWindow();
+			HDC hdc = GetDC(hwnd);
+
+			HPEN hPen = CreatePen(PS_SOLID, line_width, color);
+			HBRUSH hBrush = CreateSolidBrush(color);
+			SelectObject(hdc, hPen);
+			SelectObject(hdc, hBrush);
+
+			POINT vertices[] =
+			{
+				{start_x, start_y + side},		
+				{start_x + side, start_y + side},	
+				{start_x + side / 2, start_y + side - get_height()}	
+			};
+
+			::Polygon(hdc, vertices, sizeof(vertices) / sizeof(vertices[0]));
+
+			DeleteObject(hBrush);
+			DeleteObject(hPen);
+			ReleaseDC(hwnd, hdc);
+		}
+		void info()const
+		{
+			cout << typeid(*this).name() << endl;
+			cout << "Сторона треугольника: " << side << endl;
+			cout << "Высота треугольника: " << get_height() << endl;
+			Shape::info();
+		}
+	};
+	class IsoscalesTringle :public Triangle
+	{
+		double base;
+		double side;
+	public:
+		double get_base()const
+		{
+			return base;
+		}
+		double get_side()const
+		{
+			return side;
+		}
+		void set_base(double base)
+		{
+			if (base < Defaults::min_line_length)base = Defaults::min_line_length;
+			else if (base > Defaults::max_line_length)base = Defaults::max_line_length;
+			//if (base >= side * 2)base /= 2;
+			this->base = base;
+		}
+		void set_side(double base)
+		{
+			if (side < Defaults::min_line_length)side = Defaults::min_line_length;
+			else if (side > Defaults::max_line_length)side = Defaults::max_line_length;
+			if (side * 2<=base)side *= 2;
+			this->side = side;
+		}
+		IsoscalesTringle& operator()(double base, double side)
+		{
+			if (base >= side * 2)base = side;
+			set_base(base);
+			set_side(side);
+			return *this;
+		}
+		IsoscalesTringle(double base, double side, int start_x, int start_y, unsigned int line_width, Color color)
+			:Triangle(start_x, start_y, line_width, color)
+		{
+			operator()(base, side);
+		}
+		~IsoscalesTringle(){}
+		double get_height()const
+		{
+			return sqrt(pow(side, 2) - pow(base / 2, 2));
+		}
+		double get_area()const
+		{
+			return base * get_height() / 2;
+		}
+		double get_perimeter()const
+		{
+			return base + side * 2;
+		}
+		void draw()const
+		{
+			HWND hwnd = GetConsoleWindow();
+			HDC hdc = GetDC(hwnd);
+			HPEN hPen = CreatePen(PS_SOLID, line_width, color);
+			HBRUSH hBrush = CreateSolidBrush(color);
+			SelectObject(hdc, hPen);
+			SelectObject(hdc, hBrush);
+
+			POINT vertices[] =
+			{
+				{start_x, start_y + side},
+				{start_x + base, start_y + side},
+				{start_x + base / 2, start_y + side - get_height()}
+			};
+
+			::Polygon(hdc, vertices, sizeof(vertices) / sizeof(vertices[0]));
+
+			DeleteObject(hBrush);
+			DeleteObject(hPen);
+			ReleaseDC(hwnd, hdc);
+
+		}
+		void info()const
+		{
+			cout << typeid(*this).name() << endl;
+			cout << "Основание треунольника: " << base << endl;
+			cout << "Сторона треугольника: " << side << endl;
+			cout << "Высота треугольника: " << get_height() << endl;
+			Shape::info();
+		}
+	};
+	class Acuteangled_Tringle :public Triangle
+	{
+
+	};
+
+
 }
+
+#define HOM_WORK
 
 void main()
 {
@@ -333,6 +504,16 @@ void main()
 	Geometry::Circle circ(50, 650, 150, 15, Geometry::Color::console_red);
 	circ.info();
 	
-	Geometry::Tringel trin(50, 150, 250, 15, Geometry::Color::console_red);
+	Geometry::Tringel trin(150, 250, 250, 15, Geometry::Color::console_red);
 	trin.info();
+
+	Geometry::EquilateralTriangle qtri(150, 700, 300, 5, Geometry::Color::green);
+	qtri.info();
+
+	Geometry::IsoscalesTringle itri1(100, 150, 400, 300, 5, Geometry::Color::blue);
+	itri1.info();
+
+	Geometry::IsoscalesTringle itri2(100, 175, 900, 200, 5, Geometry::Color::blue);
+	itri2.info();
+
 }
