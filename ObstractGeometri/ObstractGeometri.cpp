@@ -478,9 +478,68 @@ namespace Geometry
 			Shape::info();
 		}
 	};
-	class Acuteangled_Tringle :public Triangle
+	class RectangularTringle :public Triangle
 	{
+		double side;
+	public:
+		double get_side()const
+		{
+			return side;
+		}
+		void set_side(double side)
+		{
+			if (side < Defaults::min_line_length)this->side = Defaults::min_line_length;
+			else if (side > Defaults::max_line_length)this->side = Defaults::max_line_length;
+			else this->side = side;
+		}
+		RectangularTringle(double side, int start_x, int start_y, unsigned int line_width, Color color) :
+			Triangle(start_x, start_y, line_width, color)
+		{
+			set_side(side);
+		}
+		~RectangularTringle(){}
+		double get_height()const
+		{
+			return sqrt(pow(side, 2) - pow(side / 2, 2));
+		}
+		double get_area()const
+		{
+			return side * get_height() / 2;
+		}
+		double get_perimeter()const
+		{
+			return side * 3;
+		}
+		void draw()const
+		{
+			HWND hwnd = GetConsoleWindow();
+			HDC hdc = GetDC(hwnd);
 
+			HPEN hPen = CreatePen(PS_SOLID, line_width, color);
+			HBRUSH hBrush = CreateSolidBrush(color);
+			SelectObject(hdc, hPen);
+			SelectObject(hdc, hBrush);
+
+			POINT vertices[] =
+			{
+				{start_x, start_y + side},		//2
+				{start_x + side, start_y + side},	//3
+				{start_x + side, start_y + side - get_height()}	//4
+			};
+
+			::Polygon(hdc, vertices, sizeof(vertices) / sizeof(vertices[0]));
+
+			DeleteObject(hBrush);
+			DeleteObject(hPen);
+			ReleaseDC(hwnd, hdc);
+		}
+		void info()const
+		{
+			cout << typeid(*this).name() << endl;
+			cout << "Сторона треугольника: " << side << endl;
+			cout << "Высота треугольника: " << get_height() << endl;
+			Shape::info();
+		}
 	};
 
 
@@ -515,5 +574,8 @@ void main()
 
 	Geometry::IsoscalesTringle itri2(100, 175, 900, 200, 5, Geometry::Color::blue);
 	itri2.info();
+	
+	Geometry::RectangularTringle rtri(175, 900, 200, 5, Geometry::Color::blue);
+	rtri.info();
 
 }
