@@ -515,16 +515,16 @@ namespace Geometry
 			HWND hwnd = GetConsoleWindow();
 			HDC hdc = GetDC(hwnd);
 
-			HPEN hPen = CreatePen(PS_SOLID, line_width, color);
-			HBRUSH hBrush = CreateSolidBrush(color);
+			HPEN hPen = CreatePen(PS_SOLID, line_width, green);
+			HBRUSH hBrush = CreateSolidBrush(green);
 			SelectObject(hdc, hPen);
 			SelectObject(hdc, hBrush);
 
 			POINT vertices[] =
 			{
-				{start_x, start_y + side},		//2
-				{start_x + side, start_y + side},	//3
-				{start_x + side, start_y + side - get_height()}	//4
+				{start_x, start_y + side},		
+				{start_x + side, start_y + side},	
+				{start_x, start_y + side - get_height()}	
 			};
 
 			::Polygon(hdc, vertices, sizeof(vertices) / sizeof(vertices[0]));
@@ -563,7 +563,7 @@ void main()
 	Geometry::Circle circ(50, 650, 150, 15, Geometry::Color::console_red);
 	circ.info();
 	
-	Geometry::Tringel trin(150, 250, 250, 15, Geometry::Color::console_red);
+	Geometry::Tringel trin(150, 250, 250, 15, Geometry::Color::console_green);
 	trin.info();
 
 	Geometry::EquilateralTriangle qtri(150, 700, 300, 5, Geometry::Color::green);
@@ -575,7 +575,7 @@ void main()
 	Geometry::IsoscalesTringle itri2(100, 175, 900, 200, 5, Geometry::Color::blue);
 	itri2.info();
 	
-	Geometry::RectangularTringle rtri(175, 900, 200, 5, Geometry::Color::blue);
+	Geometry::RectangularTringle rtri(175, 900, 200, 5, Geometry::Color::console_green);
 	rtri.info();
 
 }
